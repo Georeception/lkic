@@ -1,22 +1,12 @@
 import React, { useEffect } from 'react';
-import { Box, Container, Typography, Grid, Card, CardContent } from '@mui/material';
+import { Box, Container, Typography, Grid, Card } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import { styled } from '@mui/material/styles';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
 import LightbulbIcon from '@mui/icons-material/Lightbulb';
 import TargetIcon from '@mui/icons-material/TrackChanges';
 import PeopleIcon from '@mui/icons-material/People';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-
-const StyledImage = styled('img')({
-  width: '100%',
-  height: 'auto',
-  borderRadius: '24px',
-  objectFit: 'cover',
-});
 
 const About = () => {
   const theme = useTheme();
@@ -53,9 +43,7 @@ const About = () => {
   ];
 
   return (
-    <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-      <Navbar />
-      <Box sx={{ flex: 1, pt: { xs: 12, md: 15 }, pb: { xs: 4, md: 8 } }}>
+    <Box sx={{ pt: { xs: 12, md: 15 }, pb: { xs: 4, md: 8 } }}>
         <Container maxWidth="lg" sx={{ px: { xs: 2, sm: 3, md: 4 } }}>
           {/* Hero Section */}
           <Grid container spacing={{ xs: 4, md: 6 }} sx={{ mb: { xs: 4, md: 8 }, alignItems: 'center' }}>
@@ -130,7 +118,9 @@ const About = () => {
             <Grid item xs={12} md={6} data-aos="fade-up">
               <Box
                 component="img"
-                src="/images/hands.png"
+                src="/images/hands.webp"
+                loading="lazy"
+                decoding="async"
                 alt="Collaboration"
                 sx={{
                   width: '100%',
@@ -280,7 +270,7 @@ const About = () => {
               <Grid item xs={12} md={6} data-aos="fade-up" data-aos-delay="200">
                 <Box
                   component="img"
-                  src="/images/kirika.jfif"
+                  src="/images/kirika.png"
                   alt="Kirika Kivuti - COO"
                   sx={{
                     width: '100%',
@@ -294,11 +284,8 @@ const About = () => {
             </Grid>
           </Box>
         </Container>
-      </Box>
-      <Footer />
     </Box>
   );
 };
 
 export default About;
-

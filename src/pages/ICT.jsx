@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react';
-import { Box, Container, Typography, Grid, Card, CardContent, Chip, Stack, Button } from '@mui/material';
+import { Box, Container, Typography, Grid, Card, Chip, Stack, Button } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
 import MapIcon from '@mui/icons-material/Map';
 import SatelliteIcon from '@mui/icons-material/Satellite';
 import LayersIcon from '@mui/icons-material/Layers';
@@ -61,9 +59,7 @@ const ICT = () => {
   ];
 
   return (
-    <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-      <Navbar />
-      <Box sx={{ flex: 1, pt: { xs: 12, md: 15 }, pb: { xs: 4, md: 8 } }}>
+    <Box sx={{ pt: { xs: 12, md: 15 }, pb: { xs: 4, md: 8 } }}>
         <Container maxWidth="lg" sx={{ px: { xs: 2, sm: 3, md: 4 } }}>
           {/* Hero Section */}
           <Grid container spacing={{ xs: 4, md: 6 }} sx={{ mb: { xs: 4, md: 8 }, alignItems: 'center' }}>
@@ -103,10 +99,20 @@ const ICT = () => {
                 LKIC operates two specialized technology divisions: <strong>ICT & AI</strong> focuses on sovereign digital infrastructure, AI solutions, DeSci DAO, and BPO services. <strong>Geomaps</strong> delivers cutting-edge geospatial technology, mapping, and location intelligence services. Together, we're building Africa's technological future.
               </Typography>
               <Stack direction="row" spacing={2} flexWrap="wrap" sx={{ mb: 4 }}>
-                <Chip label="Sovereign AI" sx={{ bgcolor: theme.palette.primary.main + '15', color: theme.palette.primary.main, fontSize: { xs: '0.75rem', md: '0.95rem' }, py: { xs: 1.5, md: 2.5 } }} />
-                <Chip label="DeSci DAO" sx={{ bgcolor: theme.palette.secondary.main + '15', color: theme.palette.secondary.main, fontSize: { xs: '0.75rem', md: '0.95rem' }, py: { xs: 1.5, md: 2.5 } }} />
-                <Chip label="BPO & IT" sx={{ bgcolor: theme.palette.primary.main + '15', color: theme.palette.primary.main, fontSize: { xs: '0.75rem', md: '0.95rem' }, py: { xs: 1.5, md: 2.5 } }} />
-                <Chip label="Geomaps" sx={{ bgcolor: theme.palette.secondary.main + '15', color: theme.palette.secondary.main, fontSize: { xs: '0.75rem', md: '0.95rem' }, py: { xs: 1.5, md: 2.5 } }} />
+                {['Sovereign AI', 'DeSci DAO', 'BPO & IT', 'Geomaps'].map((label) => (
+                  <Chip
+                    key={label}
+                    label={label}
+                    sx={{
+                      bgcolor: theme.palette.secondary.main,
+                      color: theme.palette.primary.main,
+                      border: '1px solid rgba(255, 215, 0, 0.45)',
+                      fontWeight: 600,
+                      fontSize: { xs: '0.75rem', md: '0.95rem' },
+                      py: { xs: 1.5, md: 2.5 },
+                    }}
+                  />
+                ))}
               </Stack>
               <Grid container spacing={{ xs: 2, md: 3 }}>
                 <Grid item xs={4}>
@@ -126,7 +132,7 @@ const ICT = () => {
             <Grid item xs={12} md={6} data-aos="fade-left">
               <Box
                 component="img"
-                src="/images/innovation.jpg"
+                src="/images/innovation_double.png"
                 alt="ICT & AI Technology"
                 sx={{
                   width: '100%',
@@ -153,7 +159,7 @@ const ICT = () => {
               <Grid item xs={12} md={6} data-aos="fade-up" data-aos-delay="200" sx={{ display: 'flex' }}>
                 <Box
                   component="img"
-                  src="/images/innovation.jpg"
+                  src="/images/innovation_three.png"
                   alt="ICT & AI Technology"
                   sx={{
                     width: '100%',
@@ -301,7 +307,9 @@ const ICT = () => {
                 <Grid item xs={12} md={6} data-aos="fade-left">
                   <Box
                     component="img"
-                    src="/images/raster.png"
+                    src="/images/raster.webp"
+                    loading="lazy"
+                    decoding="async"
                     alt="Geospatial Technology"
                     sx={{
                       width: '100%',
@@ -457,11 +465,8 @@ const ICT = () => {
             </Typography>
           </Box>
         </Container>
-      </Box>
-      <Footer />
     </Box>
   );
 };
 
 export default ICT;
-

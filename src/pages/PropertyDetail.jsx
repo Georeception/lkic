@@ -9,17 +9,12 @@ import {
   Stack,
   Divider,
   Button,
-  IconButton,
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import HomeIcon from '@mui/icons-material/Home';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import PhoneIcon from '@mui/icons-material/Phone';
 import EmailIcon from '@mui/icons-material/Email';
-import StarIcon from '@mui/icons-material/Star';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
 import { propertiesData } from '../data/propertiesData';
 
 const PropertyDetail = () => {
@@ -35,38 +30,50 @@ const PropertyDetail = () => {
 
   if (!property) {
     return (
-      <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-        <Navbar />
-        <Box sx={{ flex: 1, pt: { xs: 12, md: 15 }, pb: { xs: 4, md: 8 }, textAlign: 'center' }}>
+      <Box sx={{ pt: { xs: 12, md: 15 }, pb: { xs: 4, md: 8 }, textAlign: 'center' }}>
           <Container maxWidth="lg" sx={{ px: { xs: 2, sm: 3, md: 4 } }}>
-            <Typography variant="h4" sx={{ mb: 3, fontSize: { xs: '1.5rem', md: '2rem' } }}>Property Not Found</Typography>
-            <Button variant="contained" onClick={() => navigate('/real-estate')}>
+            <Typography component="h1" variant="h4" sx={{ mb: 3, fontSize: { xs: '1.5rem', md: '2rem' } }}>Property Not Found</Typography>
+            <Button
+              variant="contained"
+              onClick={() => navigate('/real-estate')}
+              sx={{ bgcolor: 'secondary.main', color: 'primary.main', fontWeight: 700, '&:hover': { bgcolor: '#171717' } }}
+            >
               Back to Properties
             </Button>
           </Container>
-        </Box>
-        <Footer />
       </Box>
     );
   }
 
   return (
-    <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-      <Navbar />
-      <Box sx={{ flex: 1, pt: { xs: 12, md: 15 }, pb: { xs: 4, md: 8 } }}>
+    <Box sx={{ pt: { xs: 12, md: 15 }, pb: { xs: 4, md: 8 } }}>
         <Container maxWidth="lg" sx={{ px: { xs: 2, sm: 3, md: 4 } }}>
           {/* Header with Back Button */}
           <Box sx={{ mb: { xs: 3, md: 4 } }}>
             <Button
+              variant="contained"
               startIcon={<ArrowBackIcon />}
               onClick={() => navigate('/real-estate')}
-              sx={{ mb: 3 }}
+              sx={{
+                mb: 3,
+                bgcolor: theme.palette.secondary.main,
+                color: theme.palette.primary.main,
+                fontWeight: 700,
+                boxShadow: '0 6px 16px rgba(0, 0, 0, 0.16)',
+                '&:hover': {
+                  bgcolor: '#171717',
+                  color: theme.palette.primary.light,
+                  transform: 'translateY(-2px)',
+                  boxShadow: '0 10px 22px rgba(0, 0, 0, 0.24)',
+                },
+              }}
             >
               Back to Properties
             </Button>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 2 }}>
               <Box>
                 <Typography
+                  component="h1"
                   variant="h2"
                   sx={{
                     fontWeight: 'bold',
@@ -80,9 +87,11 @@ const PropertyDetail = () => {
                 <Chip
                   label={property.status}
                   sx={{
-                    bgcolor: theme.palette.primary.main + '15',
+                    bgcolor: theme.palette.secondary.main,
                     color: theme.palette.primary.main,
                     fontWeight: 600,
+                    border: '1px solid rgba(255, 215, 0, 0.45)',
+                    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.12)',
                     fontSize: { xs: '0.875rem', md: '1rem' },
                     py: { xs: 1.5, md: 2.5 },
                   }}
@@ -109,6 +118,15 @@ const PropertyDetail = () => {
                   cursor: images.length > 1 ? 'pointer' : 'default',
                 }}
                 onClick={() => images.length > 1 && setSelectedImageIndex((prev) => (prev + 1) % images.length)}
+                role={images.length > 1 ? 'button' : undefined}
+                tabIndex={images.length > 1 ? 0 : undefined}
+                aria-label={images.length > 1 ? `Show next image of ${property.name}` : undefined}
+                onKeyDown={(event) => {
+                  if (images.length > 1 && (event.key === 'Enter' || event.key === ' ')) {
+                    event.preventDefault();
+                    setSelectedImageIndex((previous) => (previous + 1) % images.length);
+                  }
+                }}
               />
               
               {/* Thumbnail Gallery */}
@@ -121,6 +139,15 @@ const PropertyDetail = () => {
                         src={img}
                         alt={`${property.name} - Thumbnail ${index + 1}`}
                         onClick={() => setSelectedImageIndex(index)}
+                        role="button"
+                        tabIndex={0}
+                        aria-pressed={selectedImageIndex === index}
+                        onKeyDown={(event) => {
+                          if (event.key === 'Enter' || event.key === ' ') {
+                            event.preventDefault();
+                            setSelectedImageIndex(index);
+                          }
+                        }}
                         sx={{
                           width: '100%',
                           height: { xs: '80px', sm: '100px', md: '120px' },
@@ -282,7 +309,8 @@ const PropertyDetail = () => {
                       <Button
                         variant="contained"
                         fullWidth
-                        startIcon={<PhoneIcon />}
+                        startIcon={<EmailIcon />}
+                        href={`mailto:info@lkic.africa?subject=${encodeURIComponent(`Property enquiry: ${property.name}`)}`}
                         sx={{
                           bgcolor: theme.palette.primary.main,
                           color: theme.palette.secondary.main,
@@ -293,24 +321,30 @@ const PropertyDetail = () => {
                           },
                         }}
                       >
-                        Call Now
+                        Email Property Team
                       </Button>
                       <Button
-                        variant="outlined"
+                        variant="contained"
                         fullWidth
                         startIcon={<EmailIcon />}
+                        onClick={() => navigate(`/contact?subject=${encodeURIComponent(`Property viewing: ${property.name}`)}`)}
                         sx={{
-                          borderColor: theme.palette.primary.main,
+                          bgcolor: theme.palette.secondary.main,
                           color: theme.palette.primary.main,
+                          fontWeight: 700,
                           py: { xs: 1.25, md: 1.5 },
                           fontSize: { xs: '0.875rem', md: '1rem' },
+                          boxShadow: '0 8px 20px rgba(0, 0, 0, 0.18)',
+                          transition: 'transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease',
                           '&:hover': {
-                            borderColor: theme.palette.primary.dark,
-                            bgcolor: theme.palette.primary.main + '10',
+                            bgcolor: '#171717',
+                            color: theme.palette.primary.light,
+                            transform: 'translateY(-2px)',
+                            boxShadow: '0 12px 26px rgba(0, 0, 0, 0.25)',
                           },
                         }}
                       >
-                        Send Email
+                        Request a Viewing
                       </Button>
                     </Stack>
                   </Box>
@@ -324,6 +358,7 @@ const PropertyDetail = () => {
             <Button
               variant="contained"
               size="large"
+              onClick={() => navigate(`/contact?subject=${encodeURIComponent(`Property viewing: ${property.name}`)}`)}
               sx={{
                 bgcolor: theme.palette.primary.main,
                 color: theme.palette.secondary.main,
@@ -335,15 +370,12 @@ const PropertyDetail = () => {
                 },
               }}
             >
-              Schedule Viewing
+              Request a Viewing
             </Button>
           </Box>
         </Container>
-      </Box>
-      <Footer />
     </Box>
   );
 };
 
 export default PropertyDetail;
-

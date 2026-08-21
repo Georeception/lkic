@@ -99,9 +99,11 @@ const StoryCard = ({ title, image }) => {
         <IconButton
           sx={{
             color: theme.palette.primary.main,
-            backgroundColor: 'white',
+            backgroundColor: theme.palette.secondary.main,
+            border: '1px solid rgba(255, 215, 0, 0.55)',
+            boxShadow: '0 6px 16px rgba(0, 0, 0, 0.25)',
             '&:hover': {
-              backgroundColor: 'white',
+              backgroundColor: '#171717',
               transform: 'scale(1.1)',
             },
           }}
@@ -149,4 +151,4 @@ const StoriesOfImpact = () => {
   );
 };
 
-export default StoriesOfImpact; 
+export default StoriesOfImpact;

@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react';
-import { Box, Container, Typography, Grid, Card, CardContent, Stack, Chip, Button } from '@mui/material';
+import { Box, Container, Typography, Grid, Card, Stack, Chip, Button } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import PeopleIcon from '@mui/icons-material/People';
 import LightbulbIcon from '@mui/icons-material/Lightbulb';
@@ -48,9 +46,7 @@ const Outreach = () => {
   ];
 
   return (
-    <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-      <Navbar />
-      <Box sx={{ flex: 1, pt: { xs: 12, md: 15 }, pb: { xs: 4, md: 8 } }}>
+    <Box sx={{ pt: { xs: 12, md: 15 }, pb: { xs: 4, md: 8 } }}>
         <Container maxWidth="lg" sx={{ px: { xs: 2, sm: 3, md: 4 } }}>
           {/* Hero Section */}
           <Grid container spacing={{ xs: 4, md: 6 }} sx={{ mb: { xs: 4, md: 8 }, alignItems: 'center' }}>
@@ -90,9 +86,20 @@ const Outreach = () => {
                 LKIC's Outreach division is dedicated to creating lasting positive change in communities across Kenya. Through strategic philanthropy, leadership development programs, and grassroots engagement via the BUS political movement, we're building capacity and creating opportunities for sustainable progress at the community level.
               </Typography>
               <Stack direction="row" spacing={2} flexWrap="wrap" sx={{ mb: 4 }}>
-                <Chip label="Community Impact" sx={{ bgcolor: theme.palette.secondary.main + '15', color: theme.palette.secondary.main, fontSize: { xs: '0.75rem', md: '0.95rem' }, py: { xs: 1.5, md: 2.5 } }} />
-                <Chip label="Leadership" sx={{ bgcolor: theme.palette.primary.main + '15', color: theme.palette.primary.main, fontSize: { xs: '0.75rem', md: '0.95rem' }, py: { xs: 1.5, md: 2.5 } }} />
-                <Chip label="Empowerment" sx={{ bgcolor: theme.palette.primary.main + '15', color: theme.palette.primary.main, fontSize: { xs: '0.75rem', md: '0.95rem' }, py: { xs: 1.5, md: 2.5 } }} />
+                {['Community Impact', 'Leadership', 'Empowerment'].map((label) => (
+                  <Chip
+                    key={label}
+                    label={label}
+                    sx={{
+                      bgcolor: theme.palette.secondary.main,
+                      color: theme.palette.primary.main,
+                      border: '1px solid rgba(255, 215, 0, 0.45)',
+                      fontWeight: 600,
+                      fontSize: { xs: '0.75rem', md: '0.95rem' },
+                      py: { xs: 1.5, md: 2.5 },
+                    }}
+                  />
+                ))}
               </Stack>
               <Grid container spacing={{ xs: 2, md: 3 }}>
                 <Grid item xs={4}>
@@ -113,6 +120,8 @@ const Outreach = () => {
               <Box
                 component="img"
                 src="/images/bus.png"
+                loading="lazy"
+                decoding="async"
                 alt="Community Outreach"
                 sx={{
                   width: '100%',
@@ -131,6 +140,8 @@ const Outreach = () => {
               <Box
                 component="img"
                 src="/images/lenny.png"
+                loading="lazy"
+                decoding="async"
                 alt="Community Mission"
                 sx={{
                   width: '100%',
@@ -314,11 +325,8 @@ const Outreach = () => {
             </Typography>
           </Box>
         </Container>
-      </Box>
-      <Footer />
     </Box>
   );
 };
 
 export default Outreach;
-

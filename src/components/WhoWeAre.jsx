@@ -89,18 +89,20 @@ const WhoWeAre = () => {
             <Button
               component={Link}
               to="/about"
-              variant="outlined"
-              color="primary"
+              variant="contained"
               size="large"
               sx={{
                 mt: 2,
-                borderWidth: '2px',
-                transition: 'all 0.3s ease-in-out',
+                bgcolor: theme.palette.secondary.main,
+                color: theme.palette.primary.main,
+                fontWeight: 700,
+                boxShadow: '0 8px 20px rgba(0, 0, 0, 0.2)',
+                transition: 'transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease',
                 '&:hover': {
-                  borderWidth: '2px',
-                  backgroundColor: theme.palette.secondary.main,
-                  borderColor: theme.palette.secondary.main,
-                  color: theme.palette.background.default,
+                  bgcolor: '#171717',
+                  color: theme.palette.primary.light,
+                  transform: 'translateY(-2px)',
+                  boxShadow: '0 12px 26px rgba(0, 0, 0, 0.28)',
                 },
               }}
             >
@@ -125,7 +127,9 @@ const WhoWeAre = () => {
                   <Grid item xs={12}>
                     <ImageWrapper sx={{ height: { xs: '140px', sm: '160px' } }}>
                       <StyledImage
-                        src="/images/hands.png"
+                        src="/images/hands.webp"
+                        loading="lazy"
+                        decoding="async"
                         alt="Innovation center activities"
                       />
                     </ImageWrapper>
@@ -161,4 +165,4 @@ const WhoWeAre = () => {
   );
 };
 
-export default WhoWeAre; 
+export default WhoWeAre;

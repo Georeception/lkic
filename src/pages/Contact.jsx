@@ -1,22 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Container, Typography, Grid, TextField, Button, Card, CardContent, Stack } from '@mui/material';
+import { Box, Container, Typography, Grid, TextField, Button, Card, Stack, Link } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
+import { useSearchParams } from 'react-router-dom';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import PhoneIcon from '@mui/icons-material/Phone';
 import EmailIcon from '@mui/icons-material/Email';
 import SendIcon from '@mui/icons-material/Send';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import { trackEvent } from '../utils/analytics';
+import { siteConfig } from '../data/siteContent';
 
 const Contact = () => {
   const theme = useTheme();
+  const [searchParams] = useSearchParams();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     phone: '',
-    subject: '',
+    subject: searchParams.get('subject') || '',
     message: ''
   });
 
@@ -37,20 +38,20 @@ const Contact = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert("Thank you for your message! We'll get back to you soon.");
-    setFormData({
-      name: '',
-      email: '',
-      phone: '',
-      subject: '',
-      message: ''
-    });
+    trackEvent('contact_email_opened', { enquiry_subject: formData.subject });
+    const body = [
+      `Name: ${formData.name}`,
+      `Email: ${formData.email}`,
+      formData.phone ? `Phone: ${formData.phone}` : null,
+      '',
+      formData.message,
+    ].filter(Boolean).join('\n');
+
+    window.location.href = `mailto:${siteConfig.email}?subject=${encodeURIComponent(formData.subject)}&body=${encodeURIComponent(body)}`;
   };
 
   return (
-    <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-      <Navbar />
-      <Box sx={{ flex: 1, pt: { xs: 12, md: 15 }, pb: { xs: 4, md: 8 } }}>
+    <Box sx={{ pt: { xs: 12, md: 15 }, pb: { xs: 4, md: 8 } }}>
         <Container maxWidth="lg" sx={{ px: { xs: 2, sm: 3, md: 4 } }}>
           {/* Hero Section */}
           <Box sx={{ textAlign: 'center', mb: { xs: 4, md: 8 } }} data-aos="fade-up">
@@ -86,12 +87,16 @@ const Contact = () => {
                 <Typography variant="h4" sx={{ mb: { xs: 3, md: 4 }, fontWeight: 'bold', fontSize: { xs: '1.25rem', sm: '1.5rem', md: '2rem' } }}>
                   Send Us a Message
                 </Typography>
+                <Typography variant="body2" sx={{ mb: 3, color: theme.palette.text.secondary }}>
+                  Completing this form opens your email application with the message addressed to LKIC. You can review it before sending.
+                </Typography>
                 <form onSubmit={handleSubmit}>
                   <Stack spacing={{ xs: 2.5, md: 3 }}>
                     <TextField
                       fullWidth
                       label="Full Name"
                       name="name"
+                      autoComplete="name"
                       value={formData.name}
                       onChange={handleChange}
                       required
@@ -102,6 +107,7 @@ const Contact = () => {
                       label="Email Address"
                       name="email"
                       type="email"
+                      autoComplete="email"
                       value={formData.email}
                       onChange={handleChange}
                       required
@@ -112,6 +118,7 @@ const Contact = () => {
                       label="Phone Number"
                       name="phone"
                       type="tel"
+                      autoComplete="tel"
                       value={formData.phone}
                       onChange={handleChange}
                       variant="outlined"
@@ -149,7 +156,7 @@ const Contact = () => {
                         fontSize: { xs: '0.875rem', md: '1rem' },
                       }}
                     >
-                      Send Message
+                      Open Email to Send
                     </Button>
                   </Stack>
                 </form>
@@ -196,32 +203,6 @@ const Contact = () => {
                           width: { xs: 40, md: 48 },
                           height: { xs: 40, md: 48 },
                           borderRadius: '50%',
-                          bgcolor: theme.palette.secondary.main + '15',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                        }}
-                      >
-                        <PhoneIcon sx={{ color: theme.palette.secondary.main, fontSize: { xs: 20, md: 24 } }} />
-                      </Box>
-                      <Box>
-                        <Typography variant="h6" sx={{ mb: 1, fontWeight: 600, fontSize: { xs: '1rem', md: '1.25rem' } }}>
-                          Phone
-                        </Typography>
-                        <Typography variant="body2" sx={{ color: theme.palette.text.secondary, fontSize: { xs: '0.85rem', md: '0.875rem' } }}>
-                          +254 XXX XXX XXX
-                        </Typography>
-                      </Box>
-                    </Stack>
-                  </Card>
-
-                  <Card sx={{ p: { xs: 2.5, md: 3 }, borderRadius: 2, bgcolor: theme.palette.background.paper }}>
-                    <Stack direction="row" spacing={2} alignItems="flex-start">
-                      <Box
-                        sx={{
-                          width: { xs: 40, md: 48 },
-                          height: { xs: 40, md: 48 },
-                          borderRadius: '50%',
                           bgcolor: theme.palette.primary.main + '15',
                           display: 'flex',
                           alignItems: 'center',
@@ -234,9 +215,9 @@ const Contact = () => {
                         <Typography variant="h6" sx={{ mb: 1, fontWeight: 600, fontSize: { xs: '1rem', md: '1.25rem' } }}>
                           Email
                         </Typography>
-                        <Typography variant="body2" sx={{ color: theme.palette.text.secondary, fontSize: { xs: '0.85rem', md: '0.875rem' } }}>
-                          info@lkic.africa
-                        </Typography>
+                        <Link href={`mailto:${siteConfig.email}`} underline="hover" sx={{ color: theme.palette.text.secondary, fontSize: { xs: '0.85rem', md: '0.875rem' } }}>
+                          {siteConfig.email}
+                        </Link>
                       </Box>
                     </Stack>
                   </Card>
@@ -265,11 +246,8 @@ const Contact = () => {
             </Grid>
           </Grid>
         </Container>
-      </Box>
-      <Footer />
     </Box>
   );
 };
 
 export default Contact;
-

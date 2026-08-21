@@ -2,8 +2,6 @@ import React, { useEffect } from 'react';
 import { Box, Container, Typography, Grid, Card, CardContent, CardMedia, Chip, Stack, Button } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
 import HomeIcon from '@mui/icons-material/Home';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import StarIcon from '@mui/icons-material/Star';
@@ -31,11 +29,10 @@ const RealEstate = () => {
   };
 
   const properties = propertiesData;
+  const locationCount = new Set(properties.map((property) => property.location).filter(Boolean)).size;
 
   return (
-    <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-      <Navbar />
-      <Box sx={{ flex: 1, pt: { xs: 12, md: 15 }, pb: { xs: 4, md: 8 } }}>
+    <Box sx={{ pt: { xs: 12, md: 15 }, pb: { xs: 4, md: 8 } }}>
         <Container maxWidth="lg" sx={{ px: { xs: 2, sm: 3, md: 4 } }}>
           {/* Hero Section */}
           <Grid container spacing={{ xs: 4, md: 6 }} sx={{ mb: { xs: 4, md: 8 } }}>
@@ -76,11 +73,11 @@ const RealEstate = () => {
               </Typography>
               <Stack direction="row" spacing={{ xs: 2, md: 4 }} flexWrap="wrap" sx={{ mb: 4 }}>
                 <Box>
-                  <Typography variant="h4" sx={{ fontWeight: 'bold', color: theme.palette.primary.main, fontSize: { xs: '1.75rem', md: '2.125rem' } }}>7+</Typography>
+                  <Typography variant="h4" sx={{ fontWeight: 'bold', color: theme.palette.primary.main, fontSize: { xs: '1.75rem', md: '2.125rem' } }}>{properties.length}</Typography>
                   <Typography variant="body2" sx={{ color: theme.palette.text.secondary, fontSize: { xs: '0.75rem', md: '0.875rem' } }}>Properties</Typography>
                 </Box>
                 <Box>
-                  <Typography variant="h4" sx={{ fontWeight: 'bold', color: theme.palette.primary.main, fontSize: { xs: '1.75rem', md: '2.125rem' } }}>3</Typography>
+                  <Typography variant="h4" sx={{ fontWeight: 'bold', color: theme.palette.primary.main, fontSize: { xs: '1.75rem', md: '2.125rem' } }}>{locationCount}</Typography>
                   <Typography variant="body2" sx={{ color: theme.palette.text.secondary, fontSize: { xs: '0.75rem', md: '0.875rem' } }}>Locations</Typography>
                 </Box>
                 <Box>
@@ -175,7 +172,13 @@ const RealEstate = () => {
                         <Chip
                           label={property.status}
                           size="small"
-                          sx={{ bgcolor: theme.palette.primary.main + '15', color: theme.palette.primary.main, fontSize: { xs: '0.7rem', sm: '0.8rem' } }}
+                          sx={{
+                            bgcolor: theme.palette.secondary.main,
+                            color: theme.palette.primary.main,
+                            border: '1px solid rgba(255, 215, 0, 0.45)',
+                            fontWeight: 600,
+                            fontSize: { xs: '0.7rem', sm: '0.8rem' },
+                          }}
                         />
                       </Box>
                       <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 1 }}>
@@ -290,11 +293,8 @@ const RealEstate = () => {
             </Box>
           </Card>
         </Container>
-      </Box>
-      <Footer />
     </Box>
   );
 };
 
 export default RealEstate;
-

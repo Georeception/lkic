@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react';
-import { Box, Container, Typography, Grid, Card, CardContent, Stack } from '@mui/material';
+import { Box, Container, Typography, Grid, Card, Stack } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
 import ParkIcon from '@mui/icons-material/Park';
 import NatureIcon from '@mui/icons-material/Nature';
 import LocalFloristIcon from '@mui/icons-material/LocalFlorist';
@@ -41,9 +39,7 @@ const Agriventures = () => {
   ];
 
   return (
-    <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-      <Navbar />
-      <Box sx={{ flex: 1, pt: { xs: 12, md: 15 }, pb: { xs: 4, md: 8 } }}>
+    <Box sx={{ pt: { xs: 12, md: 15 }, pb: { xs: 4, md: 8 } }}>
         <Container maxWidth="lg" sx={{ px: { xs: 2, sm: 3, md: 4 } }}>
           {/* Hero Section */}
           <Grid container spacing={{ xs: 4, md: 6 }} sx={{ mb: { xs: 4, md: 8 }, alignItems: 'center' }}>
@@ -327,11 +323,8 @@ const Agriventures = () => {
             </Box>
           </Card>
         </Container>
-      </Box>
-      <Footer />
     </Box>
   );
 };
 
 export default Agriventures;
-

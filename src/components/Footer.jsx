@@ -1,54 +1,46 @@
 import React from 'react';
 import {
   Box,
+  Card,
   Container,
+  Divider,
   Grid,
-  Typography,
   IconButton,
   Link as MuiLink,
   Stack,
-  Divider,
+  Typography,
   useTheme,
-  Card,
 } from '@mui/material';
 import { Link } from 'react-router-dom';
-import {
-  Facebook,
-  Twitter,
-  LinkedIn,
-  Instagram,
-  YouTube,
-  Phone,
-  Email,
-  LocationOn,
-  ArrowUpward,
-} from '@mui/icons-material';
+import { ArrowUpward, Email, LocationOn } from '@mui/icons-material';
+import { siteConfig } from '../data/siteContent';
 
-const footerLinks = {
-  company: [
-    { title: 'About Us', url: '/about' },
-    { title: 'Research & Development', url: '/research' },
-    { title: 'Real Estate', url: '/real-estate' },
-    { title: 'ICT Solutions', url: '/ict' },
-  ],
-  divisions: [
-    { title: 'Agriventures', url: '/agriventures' },
-    { title: 'Outreach Programs', url: '/outreach' },
-    { title: 'Geomaps', url: '/ict' },
-  ],
-  resources: [
-    { title: 'Contact Us', url: '/contact' },
-    { title: 'Careers', url: '/contact' },
-    { title: 'Partners', url: '/about' },
-  ],
-};
-
-const socialLinks = [
-  { icon: Facebook, url: '#', color: '#1877F2' },
-  { icon: Twitter, url: '#', color: '#1DA1F2' },
-  { icon: LinkedIn, url: '#', color: '#0A66C2' },
-  { icon: Instagram, url: '#', color: '#E4405F' },
-  { icon: YouTube, url: '#', color: '#FF0000' },
+const footerSections = [
+  {
+    title: 'Company',
+    links: [
+      { title: 'About Us', url: '/about' },
+      { title: 'Research & Development', url: '/research' },
+      { title: 'Contact Us', url: '/contact' },
+    ],
+  },
+  {
+    title: 'Divisions',
+    links: [
+      { title: 'Real Estate', url: '/real-estate' },
+      { title: 'ICT & Geomaps', url: '/ict' },
+      { title: 'Agriventures', url: '/agriventures' },
+      { title: 'Outreach', url: '/outreach' },
+    ],
+  },
+  {
+    title: 'Enquiries',
+    links: [
+      { title: 'Partnerships', url: '/contact?subject=Partnership%20enquiry' },
+      { title: 'Careers', url: '/contact?subject=Careers%20enquiry' },
+      { title: 'Property Viewings', url: '/contact?subject=Property%20viewing' },
+    ],
+  },
 ];
 
 const Footer = () => {
@@ -58,8 +50,17 @@ const Footer = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const cardStyles = {
+    p: { xs: 2, md: 2.5 },
+    height: '100%',
+    bgcolor: 'rgba(255, 255, 255, 0.03)',
+    border: '1px solid rgba(255, 255, 255, 0.1)',
+    borderRadius: 2,
+  };
+
   return (
     <Box
+      component="footer"
       sx={{
         bgcolor: 'black',
         position: 'relative',
@@ -67,8 +68,8 @@ const Footer = () => {
         borderColor: theme.palette.primary.main,
       }}
     >
-      {/* Back to Top Button */}
       <IconButton
+        aria-label="Back to top"
         onClick={scrollToTop}
         sx={{
           position: 'fixed',
@@ -80,408 +81,119 @@ const Footer = () => {
           height: { xs: 45, md: 50 },
           boxShadow: '0 4px 12px rgba(255, 215, 0, 0.3)',
           zIndex: 1000,
+          transition: 'all 0.3s ease',
           '&:hover': {
             bgcolor: theme.palette.primary.dark,
             transform: 'translateY(-5px)',
-            boxShadow: '0 6px 20px rgba(255, 215, 0, 0.4)',
           },
-          transition: 'all 0.3s ease',
         }}
       >
         <ArrowUpward />
       </IconButton>
 
-      <Container maxWidth="lg" sx={{ px: { xs: 2, sm: 3, md: 4 }, pt: { xs: 5, sm: 6, md: 8 }, pb: { xs: 2, md: 3 } }}>
-        <Grid container spacing={{ xs: 4, sm: 6, md: 6 }}>
-          {/* Logo & Description */}
+      <Container maxWidth="lg" sx={{ px: { xs: 2, sm: 3, md: 4 }, pt: { xs: 5, md: 8 }, pb: 3 }}>
+        <Grid container spacing={{ xs: 4, md: 6 }}>
           <Grid item xs={12} md={4}>
-            <Box
-              component="img"
-              src="/images/logo.png"
-              alt="LKIC Logo"
-              sx={{ 
-                height: { xs: 50, sm: 60, md: 70 }, 
-                mb: { xs: 2, md: 3 },
-                cursor: 'pointer',
-              }}
-              onClick={scrollToTop}
-            />
+            <Box component={Link} to="/" aria-label="LKIC home" sx={{ display: 'inline-flex', mb: 2 }}>
+              <Box
+                component="img"
+                src="/images/logo.png"
+                alt="Lenny Kivuti Innovation Centre"
+                sx={{ height: { xs: 55, md: 70 }, width: 'auto' }}
+              />
+            </Box>
             <Typography
               variant="body1"
-              sx={{ 
-                mb: { xs: 2, md: 3 },
-                color: 'rgba(255, 255, 255, 0.8)',
-                fontSize: { xs: '0.875rem', md: '0.95rem' },
-                lineHeight: 1.7,
-              }}
+              sx={{ color: 'rgba(255, 255, 255, 0.8)', fontSize: { xs: '0.875rem', md: '0.95rem' }, lineHeight: 1.7 }}
             >
-              Pioneering Kenya's future through innovation, technology, and sustainable development across five integrated divisions.
+              Advancing research, technology, enterprise and sustainable development through five integrated divisions.
             </Typography>
           </Grid>
 
-          {/* Links Sections */}
           <Grid item xs={12} md={8}>
-            <Grid container spacing={{ xs: 3, sm: 3, md: 4 }}>
-              {/* Company */}
-              <Grid item xs={6} sm={4}>
-                <Typography 
-                  variant="h6" 
-                  sx={{ 
-                    color: theme.palette.primary.main, 
-                    mb: { xs: 2, md: 2.5 },
-                    fontSize: { xs: '0.95rem', md: '1.1rem' },
-                    fontWeight: 700,
-                    letterSpacing: 0.5,
-                  }} 
-                >
-                  Company
-                </Typography>
-                <Stack spacing={{ xs: 1, md: 1.25 }}>
-                  {footerLinks.company.map((link, index) => (
-                    <Link
-                      key={index}
-                      to={link.url}
-                      style={{ textDecoration: 'none' }}
-                    >
+            <Grid container spacing={3}>
+              {footerSections.map((section) => (
+                <Grid item xs={6} sm={4} key={section.title}>
+                  <Typography
+                    variant="h6"
+                    sx={{ color: theme.palette.primary.main, mb: 2.5, fontSize: { xs: '0.95rem', md: '1.1rem' }, fontWeight: 700 }}
+                  >
+                    {section.title}
+                  </Typography>
+                  <Stack spacing={1.25}>
+                    {section.links.map((link) => (
                       <Typography
-                      sx={{
-                          color: 'rgba(255, 255, 255, 0.75)',
-                          transition: 'all 0.2s',
-                          fontSize: { xs: '0.8rem', md: '0.9rem' },
-                          cursor: 'pointer',
-                        '&:hover': { 
-                          color: theme.palette.primary.main,
-                            paddingLeft: '8px',
-                        },
-                      }}
-                    >
-                      {link.title}
-                      </Typography>
-                    </Link>
-                  ))}
-                </Stack>
-              </Grid>
-
-              {/* Divisions */}
-              <Grid item xs={6} sm={4}>
-                <Typography 
-                  variant="h6" 
-                  sx={{ 
-                    color: theme.palette.primary.main, 
-                    mb: { xs: 2, md: 2.5 },
-                    fontSize: { xs: '0.95rem', md: '1.1rem' },
-                    fontWeight: 700,
-                    letterSpacing: 0.5,
-                  }}
-                >
-                  Divisions
-                </Typography>
-                <Stack spacing={{ xs: 1, md: 1.25 }}>
-                  {footerLinks.divisions.map((link, index) => (
-                    <Link
-                      key={index}
-                      to={link.url}
-                      style={{ textDecoration: 'none' }}
-                    >
-                      <Typography
+                        key={link.title}
+                        component={Link}
+                        to={link.url}
                         sx={{
                           color: 'rgba(255, 255, 255, 0.75)',
-                          transition: 'all 0.2s',
+                          textDecoration: 'none',
                           fontSize: { xs: '0.8rem', md: '0.9rem' },
-                          cursor: 'pointer',
-                          '&:hover': { 
-                            color: theme.palette.primary.main,
-                            paddingLeft: '8px',
-                          },
+                          '&:hover': { color: theme.palette.primary.main },
                         }}
                       >
                         {link.title}
                       </Typography>
-                    </Link>
-                  ))}
-                </Stack>
-              </Grid>
-
-              {/* Resources */}
-              <Grid item xs={12} sm={4}>
-                <Typography 
-                  variant="h6" 
-                  sx={{ 
-                    color: theme.palette.primary.main, 
-                    mb: { xs: 2, md: 2.5 },
-                    fontSize: { xs: '0.95rem', md: '1.1rem' },
-                    fontWeight: 700,
-                    letterSpacing: 0.5,
-                  }}
-                >
-                  Resources
-                </Typography>
-                <Stack spacing={{ xs: 1, md: 1.25 }}>
-                  {footerLinks.resources.map((link, index) => (
-                    <Link
-                      key={index}
-                      to={link.url}
-                      style={{ textDecoration: 'none' }}
-                    >
-                      <Typography
-                      sx={{
-                          color: 'rgba(255, 255, 255, 0.75)',
-                          transition: 'all 0.2s',
-                          fontSize: { xs: '0.8rem', md: '0.9rem' },
-                          cursor: 'pointer',
-                        '&:hover': { 
-                          color: theme.palette.primary.main,
-                            paddingLeft: '8px',
-                        },
-                      }}
-                    >
-                      {link.title}
-                      </Typography>
-                    </Link>
-                  ))}
-                </Stack>
-              </Grid>
+                    ))}
+                  </Stack>
+                </Grid>
+              ))}
             </Grid>
           </Grid>
 
-          {/* Contact Information & Social Media */}
           <Grid item xs={12}>
-            <Divider sx={{ my: { xs: 3, md: 4 }, borderColor: 'rgba(255, 215, 0, 0.2)' }} />
-            
-            {/* Contact Details */}
-            <Grid container spacing={{ xs: 2, md: 3 }} sx={{ mb: { xs: 3, md: 4 } }}>
-              <Grid item xs={12} sm={6} md={4}>
-                <Card sx={{ 
-                  p: { xs: 2, md: 2.5 }, 
-                  bgcolor: 'rgba(255, 255, 255, 0.03)', 
-                  borderRadius: 2,
-                  border: '1px solid rgba(255, 255, 255, 0.1)',
-                  transition: 'all 0.3s',
-                  '&:hover': {
-                    bgcolor: 'rgba(255, 215, 0, 0.05)',
-                    borderColor: 'rgba(255, 215, 0, 0.3)',
-                  },
-                }}>
-                  <Stack direction="row" spacing={2} alignItems="center">
-                    <Box sx={{ 
-                      bgcolor: 'rgba(255, 215, 0, 0.1)', 
-                      p: 1.5, 
-                      borderRadius: 2,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                    }}>
-                      <LocationOn sx={{ color: theme.palette.primary.main, fontSize: { xs: 20, md: 24 } }} />
-                    </Box>
-                    <Box>
-                      <Typography variant="caption" sx={{ color: 'rgba(255, 255, 255, 0.5)', fontSize: { xs: '0.7rem', md: '0.75rem' } }}>
-                        Location
-                      </Typography>
-                      <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.85)', fontWeight: 500, fontSize: { xs: '0.85rem', md: '0.9rem' } }}>
-                    Geomaps Center, Upperhill, Nairobi, Kenya
-                  </Typography>
-                    </Box>
-                </Stack>
-                </Card>
-              </Grid>
-              
-              <Grid item xs={12} sm={6} md={4}>
-                <Card sx={{ 
-                  p: { xs: 2, md: 2.5 }, 
-                  bgcolor: 'rgba(255, 255, 255, 0.03)', 
-                  borderRadius: 2,
-                  border: '1px solid rgba(255, 255, 255, 0.1)',
-                  transition: 'all 0.3s',
-                  '&:hover': {
-                    bgcolor: 'rgba(255, 215, 0, 0.05)',
-                    borderColor: 'rgba(255, 215, 0, 0.3)',
-                  },
-                }}>
-                  <Stack direction="row" spacing={2} alignItems="center">
-                    <Box sx={{ 
-                      bgcolor: 'rgba(255, 215, 0, 0.1)', 
-                      p: 1.5, 
-                      borderRadius: 2,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                    }}>
-                      <Phone sx={{ color: theme.palette.primary.main, fontSize: { xs: 20, md: 24 } }} />
-                    </Box>
-                    <Box>
-                      <Typography variant="caption" sx={{ color: 'rgba(255, 255, 255, 0.5)', fontSize: { xs: '0.7rem', md: '0.75rem' } }}>
-                        Call Us
-                      </Typography>
-                      <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.85)', fontWeight: 500, fontSize: { xs: '0.85rem', md: '0.9rem' } }}>
-                    +254 XXX XXX XXX
-                  </Typography>
-                    </Box>
-                </Stack>
-                </Card>
-              </Grid>
-              
-              <Grid item xs={12} sm={12} md={4}>
-                <Card sx={{ 
-                  p: { xs: 2, md: 2.5 }, 
-                  bgcolor: 'rgba(255, 255, 255, 0.03)', 
-                  borderRadius: 2,
-                  border: '1px solid rgba(255, 255, 255, 0.1)',
-                  transition: 'all 0.3s',
-                  '&:hover': {
-                    bgcolor: 'rgba(255, 215, 0, 0.05)',
-                    borderColor: 'rgba(255, 215, 0, 0.3)',
-                  },
-                }}>
-                  <Stack direction="row" spacing={2} alignItems="center">
-                    <Box sx={{ 
-                      bgcolor: 'rgba(255, 215, 0, 0.1)', 
-                      p: 1.5, 
-                      borderRadius: 2,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                    }}>
-                      <Email sx={{ color: theme.palette.primary.main, fontSize: { xs: 20, md: 24 } }} />
-                    </Box>
-                    <Box>
-                      <Typography variant="caption" sx={{ color: 'rgba(255, 255, 255, 0.5)', fontSize: { xs: '0.7rem', md: '0.75rem' } }}>
-                        Email Us
-                      </Typography>
-                      <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.85)', fontWeight: 500, fontSize: { xs: '0.85rem', md: '0.9rem' } }}>
-                    info@lkic.africa
-                  </Typography>
-                    </Box>
-                </Stack>
-                </Card>
-              </Grid>
-            </Grid>
+            <Divider sx={{ borderColor: 'rgba(255, 215, 0, 0.2)' }} />
+          </Grid>
 
-            {/* Social Media Section */}
-            <Box sx={{ 
-              textAlign: 'center', 
-              py: { xs: 3, md: 4 },
-              px: { xs: 2, md: 4 },
-              bgcolor: 'rgba(255, 215, 0, 0.03)',
-              borderRadius: 3,
-              border: '1px solid rgba(255, 215, 0, 0.1)',
-            }}>
-              <Typography 
-                variant="h6" 
-                sx={{ 
-                  color: theme.palette.primary.main, 
-                  mb: 2.5,
-                  fontSize: { xs: '1rem', md: '1.1rem' },
-                  fontWeight: 700,
-                }}
-              >
-                Connect With Us
-              </Typography>
-              <Stack 
-                direction="row" 
-                spacing={{ xs: 1, md: 1.5 }} 
-                sx={{ justifyContent: 'center', flexWrap: 'wrap', gap: 1 }}
-              >
-                {socialLinks.map((social, index) => (
-                  <IconButton
-                    key={index}
-                    component={MuiLink}
-                    href={social.url}
+          <Grid item xs={12} sm={6}>
+            <Card sx={cardStyles}>
+              <Stack direction="row" spacing={2} alignItems="center">
+                <LocationOn sx={{ color: theme.palette.primary.main }} />
+                <Box>
+                  <Typography variant="caption" sx={{ color: 'rgba(255, 255, 255, 0.5)' }}>
+                    Visit us
+                  </Typography>
+                  <MuiLink
+                    href={siteConfig.mapUrl}
                     target="_blank"
-                    sx={{
-                      bgcolor: 'rgba(255, 255, 255, 0.05)',
-                      color: 'rgba(255, 255, 255, 0.7)',
-                      width: { xs: 40, md: 48 },
-                      height: { xs: 40, md: 48 },
-                      border: '1px solid rgba(255, 255, 255, 0.1)',
-                      transition: 'all 0.3s',
-                      '&:hover': {
-                        bgcolor: social.color,
-                        color: 'white',
-                        transform: 'translateY(-5px)',
-                        boxShadow: `0 8px 20px ${social.color}40`,
-                        borderColor: social.color,
-                      },
-                    }}
+                    rel="noopener noreferrer"
+                    sx={{ display: 'block', color: 'rgba(255, 255, 255, 0.85)', textDecoration: 'none', fontWeight: 500 }}
                   >
-                    <social.icon sx={{ fontSize: { xs: 20, md: 24 } }} />
-                  </IconButton>
-                ))}
+                    {siteConfig.address}
+                  </MuiLink>
+                </Box>
               </Stack>
-            </Box>
+            </Card>
           </Grid>
 
-          {/* Copyright & Legal */}
+          <Grid item xs={12} sm={6}>
+            <Card sx={cardStyles}>
+              <Stack direction="row" spacing={2} alignItems="center">
+                <Email sx={{ color: theme.palette.primary.main }} />
+                <Box>
+                  <Typography variant="caption" sx={{ color: 'rgba(255, 255, 255, 0.5)' }}>
+                    Email us
+                  </Typography>
+                  <MuiLink
+                    href={`mailto:${siteConfig.email}`}
+                    sx={{ display: 'block', color: 'rgba(255, 255, 255, 0.85)', textDecoration: 'none', fontWeight: 500 }}
+                  >
+                    {siteConfig.email}
+                  </MuiLink>
+                </Box>
+              </Stack>
+            </Card>
+          </Grid>
+
           <Grid item xs={12}>
-            <Divider sx={{ my: { xs: 3, md: 4 }, borderColor: 'rgba(255, 215, 0, 0.2)' }} />
-            <Grid container justifyContent="space-between" alignItems="center" spacing={{ xs: 2, md: 0 }}>
-              <Grid item xs={12} md={6}>
-                <Typography 
-                  variant="body2" 
-                  sx={{ 
-                    color: 'rgba(255, 255, 255, 0.6)', 
-                    fontSize: { xs: '0.75rem', md: '0.85rem' },
-                    textAlign: { xs: 'center', md: 'left' },
-                    lineHeight: 1.6,
-                  }}
-                >
-                  © {new Date().getFullYear()} <Box component="span" sx={{ color: theme.palette.primary.main, fontWeight: 600 }}>Lenny Kivuti Innovation Centre</Box>
-                  <br />
-                  All rights reserved. Pioneering Kenya's future.
-                </Typography>
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <Stack 
-                  direction="row" 
-                  spacing={{ xs: 2, md: 3 }} 
-                  sx={{ justifyContent: { xs: 'center', md: 'flex-end' }, flexWrap: 'wrap', gap: { xs: 1, md: 0 } }}
-                >
-                  <MuiLink
-                    href="#"
-                    sx={{
-                      color: 'rgba(255, 255, 255, 0.6)',
-                      textDecoration: 'none',
-                      transition: 'all 0.2s',
-                      fontSize: { xs: '0.75rem', md: '0.85rem' },
-                      '&:hover': { 
-                        color: theme.palette.primary.main,
-                      },
-                    }}
-                  >
-                    Privacy Policy
-                  </MuiLink>
-                  <Typography sx={{ color: 'rgba(255, 255, 255, 0.3)', display: { xs: 'none', sm: 'block' } }}>•</Typography>
-                  <MuiLink
-                    href="#"
-                    sx={{
-                      color: 'rgba(255, 255, 255, 0.6)',
-                      textDecoration: 'none',
-                      transition: 'all 0.2s',
-                      fontSize: { xs: '0.75rem', md: '0.85rem' },
-                      '&:hover': { 
-                        color: theme.palette.primary.main,
-                      },
-                    }}
-                  >
-                    Terms of Service
-                  </MuiLink>
-                  <Typography sx={{ color: 'rgba(255, 255, 255, 0.3)', display: { xs: 'none', sm: 'block' } }}>•</Typography>
-                  <MuiLink
-                    href="#"
-                    sx={{
-                      color: 'rgba(255, 255, 255, 0.6)',
-                      textDecoration: 'none',
-                      transition: 'all 0.2s',
-                      fontSize: { xs: '0.75rem', md: '0.85rem' },
-                      '&:hover': { 
-                        color: theme.palette.primary.main,
-                      },
-                    }}
-                  >
-                    Cookie Policy
-                  </MuiLink>
-                </Stack>
-              </Grid>
-            </Grid>
+            <Divider sx={{ mb: 3, borderColor: 'rgba(255, 215, 0, 0.2)' }} />
+            <Typography
+              variant="body2"
+              sx={{ color: 'rgba(255, 255, 255, 0.6)', textAlign: 'center', fontSize: { xs: '0.75rem', md: '0.85rem' } }}
+            >
+              © {new Date().getFullYear()} {siteConfig.name}. All rights reserved.
+            </Typography>
           </Grid>
         </Grid>
       </Container>
@@ -489,4 +201,4 @@ const Footer = () => {
   );
 };
 
-export default Footer; 
+export default Footer;

@@ -1,70 +1,65 @@
-# Getting Started with Create React App
+# Lenny Kivuti Innovation Centre website
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Public website for LKIC's research, real estate, ICT and Geomaps, agriventures, and outreach programmes.
 
-## Available Scripts
+## Requirements
 
-In the project directory, you can run:
+- Node.js 20.19 or newer
+- npm 10 or newer
 
-### `npm start`
+## Local development
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+```bash
+npm ci
+npm start
+```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+The Vite development server opens at `http://localhost:5173`.
 
-### `npm test`
+## Verification
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```bash
+npm test
+npm run build
+npm run preview
+```
 
-### `npm run build`
+GitHub Actions runs the tests, production build and production-dependency audit for every pull request and pushes to `main`.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Environment variables
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Copy `.env.example` to `.env.local` when local overrides are needed.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+| Variable | Required | Purpose |
+| --- | --- | --- |
+| `VITE_SITE_URL` | Recommended in production | Origin used for canonical and social metadata |
+| `VITE_GA_MEASUREMENT_ID` | No | Enables GA4 page views and Web Vitals; analytics stays disabled when omitted |
 
-### `npm run eject`
+Never commit `.env.local` or credentials.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Content editing and future CMS integration
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Public organisation details, navigation, and route metadata live in `src/data/siteContent.js`. Real-estate listings live in `src/data/propertiesData.jsx`. These modules form a small content boundary so a future CMS adapter can replace the local exports without rewriting page components.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+When editing content:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+1. Keep navigation paths unique and add matching route metadata.
+2. Use descriptive alternative text for meaningful images.
+3. Optimise photographs as WebP and videos as web-ready MP4 before adding them to `public/images`.
+4. Update `public/sitemap.xml` when a public top-level route changes.
+5. Run the test and build commands before publishing.
 
-## Learn More
+## Deployment
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Create a production build with `npm run build` and deploy the generated `dist` directory. `public/_redirects` and `public/_headers` configure SPA routing, security headers and caching on Netlify-compatible hosts. `vercel.json` provides the equivalent configuration for Vercel.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Set `VITE_SITE_URL=https://lkic.africa` during the production build. Add `VITE_GA_MEASUREMENT_ID` only after the site's analytics and privacy requirements have been approved.
 
-### Code Splitting
+After deployment, verify that a direct request to `/about` returns the application, HTTPS is enforced, the security headers are present and the sitemap is available at `/sitemap.xml`.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## Repository workflow
 
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- Develop changes on a feature branch.
+- Keep commits focused and review the production build locally.
+- Open a pull request into `main` and wait for the CI workflow to pass.
+- Do not commit generated `dist` output.

@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react';
-import { Box, Container, Typography, Grid, Card, CardContent, Chip, Stack } from '@mui/material';
+import { Box, Container, Typography, Grid, Card, Chip, Stack } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
 import PsychologyIcon from '@mui/icons-material/Psychology';
 import SmartToyIcon from '@mui/icons-material/SmartToy';
 import BiotechIcon from '@mui/icons-material/Biotech';
@@ -57,9 +55,7 @@ const Research = () => {
   ];
 
   return (
-    <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-      <Navbar />
-      <Box sx={{ flex: 1, pt: { xs: 12, md: 15 }, pb: { xs: 4, md: 8 } }}>
+    <Box sx={{ pt: { xs: 12, md: 15 }, pb: { xs: 4, md: 8 } }}>
         <Container maxWidth="lg" sx={{ px: { xs: 2, sm: 3, md: 4 } }}>
           {/* Hero Section */}
           <Grid container spacing={{ xs: 4, md: 6 }} sx={{ mb: { xs: 4, md: 8 }, alignItems: 'center' }}>
@@ -99,9 +95,20 @@ const Research = () => {
                 At LKIC, we're building Kenya's future through groundbreaking research spanning bioscience, advanced physics, quantum energy, environmental law, and applied AI. Our integrated research divisions combine botanical research, particle physics, geospatial technology, and cutting-edge nanotechnology to create solutions that transform industries and improve lives across Africa.
               </Typography>
               <Stack direction="row" spacing={2} flexWrap="wrap" sx={{ mb: 4 }}>
-                <Chip label="Bioscience" sx={{ bgcolor: theme.palette.primary.main + '15', color: theme.palette.primary.main, fontSize: { xs: '0.75rem', md: '0.95rem' }, py: { xs: 1.5, md: 2.5 } }} />
-                <Chip label="Quantum & Energy" sx={{ bgcolor: theme.palette.secondary.main + '15', color: theme.palette.secondary.main, fontSize: { xs: '0.75rem', md: '0.95rem' }, py: { xs: 1.5, md: 2.5 } }} />
-                <Chip label="Earth Sciences" sx={{ bgcolor: theme.palette.primary.main + '15', color: theme.palette.primary.main, fontSize: { xs: '0.75rem', md: '0.95rem' }, py: { xs: 1.5, md: 2.5 } }} />
+                {['Bioscience', 'Quantum & Energy', 'Earth Sciences'].map((label) => (
+                  <Chip
+                    key={label}
+                    label={label}
+                    sx={{
+                      bgcolor: theme.palette.secondary.main,
+                      color: theme.palette.primary.main,
+                      border: '1px solid rgba(255, 215, 0, 0.45)',
+                      fontWeight: 600,
+                      fontSize: { xs: '0.75rem', md: '0.95rem' },
+                      py: { xs: 1.5, md: 2.5 },
+                    }}
+                  />
+                ))}
               </Stack>
               <Grid container spacing={{ xs: 2, md: 3 }}>
                 <Grid item xs={4}>
@@ -326,11 +333,8 @@ const Research = () => {
             </Box>
           </Card>
         </Container>
-      </Box>
-      <Footer />
     </Box>
   );
 };
 
 export default Research;
-

@@ -20,16 +20,17 @@ const scrollLeft = keyframes`
 
 const partners = [
   '/images/partner1.png',
-  '/images/partner2.jfif',
+  '/images/partner2.jpg',
   '/images/partner3.png',
-  '/images/partner4.jfif',
+  '/images/partner4.jpg',
   '/images/partner5.png',
   '/images/partner6.png',
-  '/images/partner7.jfif',
+  '/images/partner7.jpg',
   '/images/partner8.png',
-  '/images/karlo.png',
-  '/images/kemri.jfif'
+  '/images/kemri.jpg',
 ];
+
+const partnerLoop = [...partners, ...partners];
 
 const Partners = () => {
   const theme = useTheme();
@@ -86,67 +87,46 @@ const Partners = () => {
       <Box
         sx={{
           display: 'flex',
-          width: 'fit-content',
+          alignItems: 'center',
+          width: 'max-content',
           animation: `${scrollLeft} 30s linear infinite`,
           '&:hover': {
             animationPlayState: 'paused',
           },
         }}
       >
-        {/* First set of logos */}
-        {partners.map((partner, index) => (
+        {partnerLoop.map((partner, index) => (
           <Box
-            key={`first-${index}`}
+            key={`${partner}-${index}`}
             sx={{
               mx: { xs: 2, md: 4 },
-              height: { xs: '60px', md: '100px' },
+              width: { xs: 132, sm: 150, md: 180 },
+              height: { xs: 76, md: 104 },
+              flex: '0 0 auto',
               display: 'flex',
               alignItems: 'center',
-              //filter: 'grayscale(1)',
-              //opacity: 0.7,
-              transition: 'all 0.3s ease-in-out',
+              justifyContent: 'center',
+              p: { xs: 1, md: 1.5 },
+              bgcolor: 'rgba(255, 255, 255, 0.96)',
+              border: '1px solid rgba(0, 0, 0, 0.08)',
+              borderRadius: 2.5,
+              boxShadow: '0 8px 24px rgba(0, 0, 0, 0.08)',
+              transition: 'transform 0.3s ease, box-shadow 0.3s ease',
               '&:hover': {
-                filter: 'grayscale(0)',
-                opacity: 1,
+                transform: 'translateY(-4px)',
+                boxShadow: '0 12px 30px rgba(0, 0, 0, 0.14)',
               },
             }}
           >
             <img
               src={partner}
               alt={`Partner ${index + 1}`}
+              loading="eager"
+              decoding="async"
               style={{
+                display: 'block',
+                width: '100%',
                 height: '100%',
-                width: 'auto',
-                objectFit: 'contain',
-              }}
-            />
-          </Box>
-        ))}
-        
-        {/* Duplicate set for seamless scrolling */}
-        {partners.map((partner, index) => (
-          <Box
-            key={`second-${index}`}
-            sx={{
-              mx: { xs: 2, md: 4 },
-              height: { xs: '60px', md: '100px' },
-              display: 'flex',
-              alignItems: 'center',
-              //filter: 'grayscale(1)',
-              //opacity: 0.7,
-              transition: 'all 0.3s ease-in-out',
-              '&:hover': {
-                filter: 'grayscale(0)',
-                opacity: 1,
-              },
-            }}
-          >
-            <img
-              src={partner}
-              alt={`Partner ${index + 1}`}
-              style={{
-                height: '100%',
-                width: 'auto',
                 objectFit: 'contain',
               }}
             />
@@ -157,4 +137,4 @@ const Partners = () => {
   );
 };
 
-export default Partners; 
+export default Partners;
